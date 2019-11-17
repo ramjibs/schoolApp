@@ -7,17 +7,20 @@ const debug = require('debug')('app:server')
 const cors = require('cors')
 const RegisterSchoolRouter = require('./routes/registerSchool')
 const UserRouter = require('./routes/user')
+const CheckTokenRouter = require('./routes/checktoken')
+const passport = require('passport')
 //make connection to the DB
 require('./config/dbconfig/db.connection')
 
+app.use(passport.initialize())
+require('./config/passport')(passport);
 app.use(helmet())
 app.use(bodyparser.urlencoded({ extended: false}))
 app.use(bodyparser.json())
 app.use(cors())
-
-
-app.use('/api/registerSchool', RegisterSchoolRouter)
-app.use('/api/user',UserRouter)
+app.use('/api/checktoken',CheckTokenRouter)
+app.use('/api/registration', RegisterSchoolRouter)
+app.use('/api/users',UserRouter)
 
 
 app.listen(keys.PORT, () =>{

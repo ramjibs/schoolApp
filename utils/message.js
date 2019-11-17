@@ -15,9 +15,9 @@ module.exports.message = {
         userError: {
 
             user_exists: "User already exist in the Database",
-            user_not_exist: "No such user exist in the database",
+            user_not_exist: "User not exist in the Database",
             user_not_active: "User is not part of any School",
-            user_password_mistmatch: "Password mis match ",
+            user_password_mistmatch: "Incorrect Password",
         },
         emailAuthError:{
             passChangeAlreadyRequested: "Password change request has been already requested please try again later",
@@ -29,6 +29,7 @@ module.exports.message = {
     constants: {
 
         alphaNumeric: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+        alphaNumber: 'ABCDEFGHJKLMNOPQRSTUVWXYZ23456789abcdefghjkmnopqrstuvwxyz',
 
         registration: {
             registration_accepted: 'accepted',

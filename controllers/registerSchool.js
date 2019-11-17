@@ -8,7 +8,7 @@ const {message} = require('../utils/message')
 module.exports.addSchool = async (req, res, next) => {
 
     try {
-
+        
         const school = await RegisterSchool.findOne({ email: req.body.email })
 
         if (school && school.acceptence === message.constants.registration.registration_accepted) {
@@ -55,7 +55,7 @@ module.exports.getSchools = async (req, res) => {
     try {
 
         const schools = await RegisterSchool.find({ acceptence: req.body.acceptence })
-
+        
         if (schools.length === 0) {
 
             return res.json({ msg: message.error_messages.registerError.school_not_exist })

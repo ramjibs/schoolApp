@@ -2,7 +2,7 @@ const User = require('../models/User')
 const EmailAuth = require('../models/EmailAuth');
 const debug = require('debug')('app:userController')
 const { generateUniqueUserId } = require('../helpers/generateUniqueUserId')
-const { generatePassword, decryptPassword, hashId } = require('../helpers/generatePassword')
+const { generatePassword, decryptPassword, hashPassword } = require('../helpers/generatePassword')
 const { message } = require('../utils/message');
 const jwt = require('jsonwebtoken')
 const keys = require('../config/Keys')
@@ -65,15 +65,14 @@ module.exports.addUser = async (req, res, next) => {
 
 }
 
-// Helps to Login User
+// Helps to Login User 
 module.exports.loginUser = async (req, res) => {
 
     try {
-
         const user = await findUser(req)
 
         if (!user) {
-            return res.json({ msg: message.error_messages.userError.user_not_exist })
+            return res.status(403).json({ msg: message.error_messages.userError.user_not_exist })
         }
         else {
             const passMatch = await decryptPassword(req.body.password, user.password)
@@ -82,7 +81,7 @@ module.exports.loginUser = async (req, res) => {
 
                 if (user.activeStatus) {
                     const payload = {
-                        id: user._id
+                        _id: user._id
                     }
 
                     jwt.sign(payload, keys.secretOrPrivateKey, { expiresIn: 7200 }, (err, token) => {
@@ -94,12 +93,12 @@ module.exports.loginUser = async (req, res) => {
                     })
 
                 } else {
-                    res.json({ msg: message.error_messages.userError.user_not_active })
+                    res.status(403).json({ msg: message.error_messages.userError.user_not_active })
                 }
 
             }
             else {
-                res.json({ msg: message.error_messages.userError.user_password_mistmatch })
+                res.status(403).json({ msg: message.error_messages.userError.user_password_mistmatch })
 
             }
         }
@@ -119,7 +118,7 @@ module.exports.requestChangePassword = async (req, res, next) => {
         const user = await findUser(req)
 
         if (!user) {
-            return res.json({ msg: message.error_messages.userError.user_not_exist })
+            return res.status(403).json({ msg: message.error_messages.userError.user_not_exist })
         }
 
         const hashGenearated = await generatePassword(4)
@@ -139,7 +138,7 @@ module.exports.requestChangePassword = async (req, res, next) => {
         next();
     }
     catch (err) {
-        return res.json({ msg: message.error_messages.emailAuthError.passChangeAlreadyRequested })
+        return res.status(403).json({ msg: message.error_messages.emailAuthError.passChangeAlreadyRequested })
     }
 }
 
@@ -150,29 +149,31 @@ module.exports.changePassword = async (req, res, next) => {
         const auth = await changeRequestVerifed(req, res)
 
         if (auth === message.error_messages.emailAuthError.OtpExpired || auth === message.error_messages.emailAuthError.otpMisMatch) {
-            return res.json({ msg: auth })
+            return res.status(403).json({ msg: auth })
         }
 
         if (auth) {
+            const hashedPassword = await hashPassword(req.body.password)
             const user = await User.findOneAndUpdate({
-                email: req.body.email
+                email: req.body.id
             },
                 {
-                    password: req.body.password
+                    password: hashedPassword.hash
                 },
                 {
                     new: true,
                     useFindAndModify: false
                 })
 
-            res.json({ msg: message.constants.user.user_password_changed })
-
+            // res.json({ changePassMsg: message.constants.user.user_password_changed })
+            next()
         }
 
 
     }
     catch (err) {
-
+        debug(err)
+        return res.status(403).json({msg: 'Something went wrong'})
     }
 
 }
@@ -182,14 +183,15 @@ changeRequestVerifed = async (req, res) => {
     try {
 
         const auth = await EmailAuth.findOne({
-            email: req.body.email
+            email: req.body.id
         })
 
+        
         const otpMatch = await decryptPassword(req.body.otp, auth.hash)
 
         if (otpMatch) {
             const auth = await EmailAuth.findOneAndDelete({
-                email: req.body.email
+                email: req.body.id
             })
             return true;
         }
@@ -206,12 +208,33 @@ changeRequestVerifed = async (req, res) => {
 
 async function findUser(req) {
 
-    const user = await User.findOne({
-        $or: [
-            { _id: req.body.id },
-            { email: req.body.email }
-        ]
-    })
+
+    // const user = await User.findOne({
+    //     $or: [
+    //         { _id: req.body.id },
+    //         { email: req.body.email }
+    //     ]
+    // })
+    let user = null
+    let id = req.body.id
+
+
+
+    try {
+        if (id.includes("@")) {
+            user = await User.findOne({
+                email: id
+            })
+        }
+        else {
+            user = await User.findOne({
+                _id: parseInt(id)
+            })
+        }
+    }
+    catch{
+        user = null
+    }
 
     return user;
 
