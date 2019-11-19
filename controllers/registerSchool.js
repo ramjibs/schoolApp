@@ -12,10 +12,10 @@ module.exports.addSchool = async (req, res, next) => {
         const school = await RegisterSchool.findOne({ email: req.body.email })
 
         if (school && school.acceptence === message.constants.registration.registration_accepted) {
-            return res.json({ msg:  message.error_messages.registerError.email_id_exists })
+            return res.status(403).json({ msg:  message.error_messages.registerError.email_id_exists })
         }
         else if (school && school.acceptence === message.constants.registration.registration_pending) {
-            return res.json({ msg: message.error_messages.registerError.under_verification })
+            return res.status(403).json({ msg: message.error_messages.registerError.under_verification })
         }
 
 
