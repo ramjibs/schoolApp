@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "start-server": "nodemon server.js",
+    "restart": "pm2 startOrRestart ecosystem.config.js",
+    "deploy": "pm2 deploy ecosystem.config.js production",
     "start-client": "cd %school-client% && npm run start",
     "start-dev": "concurrently \"npm run start-server\" \"npm run start-client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,9 +29,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.2",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "pm2": "^4.1.2"
   }
 }
-
-
-
