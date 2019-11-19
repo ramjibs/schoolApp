@@ -1,6 +1,6 @@
 
 const nodemailer = require("nodemailer");
-const keys = require('../config/Keys')
+// const keys = require('../config/Keys')
 const debug = require('debug')('app:mail')
 const success = require('../views/registrationSuccess')
 const denial = require('../views/registrationDenial')
@@ -12,8 +12,8 @@ const { message } = require('../utils/message')
 const smtpTransport = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: keys.mailID,
-        pass: keys.mailPass
+        user: "ramji.balusudarsan@gmail.com",
+        pass: "r26061995"
     }
 
 
@@ -54,7 +54,7 @@ module.exports.sendNotification = async (req, res) => {
 
 
     Opts = {
-        from: keys.mailID,
+        from: "ramji.balusudarsan@gmail.com",
         to: req.body.email,
         subject: mail.subject,
         html: mail.content
