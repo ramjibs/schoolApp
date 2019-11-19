@@ -1,4 +1,4 @@
-// const keys = require('./config/Keys')
+const keys = require('./config/Keys')
 const express = require('express')
 const app = express();
 const bodyparser = require('body-parser')
@@ -22,9 +22,9 @@ app.use('/api/checktoken',CheckTokenRouter)
 app.use('/api/registration', RegisterSchoolRouter)
 app.use('/api/users',UserRouter)
 
-let port = 4000
-app.listen(port, () =>{
-    debug(`Server started in Port ${port}`)
+// let port = 4000
+app.listen(keys.PORT, () =>{
+    debug(`Server started in Port ${keys.PORT}`)
 })
 
 

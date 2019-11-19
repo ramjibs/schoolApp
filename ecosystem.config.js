@@ -1,7 +1,8 @@
 module.exports = {
     apps: [{
       name: 'school-server',
-      script: './server.js'
+      script: './server.js',
+      watch: "./",
     }],
     deploy: {
       production: {

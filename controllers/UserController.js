@@ -5,7 +5,7 @@ const { generateUniqueUserId } = require('../helpers/generateUniqueUserId')
 const { generatePassword, decryptPassword, hashPassword } = require('../helpers/generatePassword')
 const { message } = require('../utils/message');
 const jwt = require('jsonwebtoken')
-// const keys = require('../config/Keys')
+const keys = require('../config/Keys')
 
 // To Add a new User - School Parent Teacher
 module.exports.addUser = async (req, res, next) => {
@@ -84,7 +84,7 @@ module.exports.loginUser = async (req, res) => {
                         _id: user._id
                     }
 
-                    jwt.sign(payload, "secretkeytobegenratedinFuture", { expiresIn: 7200 }, (err, token) => {
+                    jwt.sign(payload, keys.secretOrPrivateKey, { expiresIn: 7200 }, (err, token) => {
                         res.json({
                             msg: message.constants.user.user_logged_in,
                             token: 'Bearer ' + token
