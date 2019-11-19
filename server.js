@@ -1,4 +1,4 @@
-const keys = require('./config/Keys')
+const keys = require('./config/Keys.js')
 const express = require('express')
 const app = express();
 const bodyparser = require('body-parser')
