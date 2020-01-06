@@ -31,7 +31,7 @@ const ProfileSchema = new Schema({
     },
     teacher: {
 
-        education: [
+        qualification: [
             {
                 title: {
                     type: String,
@@ -55,7 +55,7 @@ const ProfileSchema = new Schema({
                 },
                 score: {
                     type: String,
-                    required: true
+                    required: true 
                 }
 
             }

@@ -23,6 +23,9 @@ module.exports.message = {
             passChangeAlreadyRequested: "Password change request has been already requested please try again later",
             OtpExpired: "Your OTP has been expired",
             otpMisMatch: "Your OTP is not Valid"
+        },
+        subjectError: {
+            noSubject: "There is no subject in Database Currently. Plesae add some."
         }
     },
 

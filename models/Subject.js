@@ -1,3 +1,4 @@
+const debug = require('debug')('app:SubjectSchema')
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -9,18 +10,19 @@ const SubjectSchema = new Schema({
                 type: String,
                 required: true,
             },
-            standards: {
-                type: [Schema.Types.ObjectId],
-                ref: 'standard',
-                required: true
-            },
-            sections: {
-                type: [Schema.Types.ObjectId],
-                ref: 'section',
+            description: {
+                type: String,
                 required: true
             }
         }
     ]
 })
+
+SubjectSchema.index({subjectName: 1}, {type: -1})
+
+// SubjectSchema.on('index', function(err) {
+//     debug(err)
+// })
+
 
 module.exports = Subject = mongoose.model('subject', SubjectSchema)
