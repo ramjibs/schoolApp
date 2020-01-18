@@ -7,7 +7,7 @@ module.exports.getAllSubjects =  async (req, res) => {
     try{
 
         const subjectArray = await Subject.find({})
-
+       
         if(subjectArray.length === 0) {
             return res.json({msg: message.error_messages.subjectError.noSubject})
         }
@@ -16,20 +16,26 @@ module.exports.getAllSubjects =  async (req, res) => {
 
     }
     catch( err ){
-        debug(err)
+        debug(err) 
     }
 }
 
-module.exports.addSubjects = async (req, res) => {
+module.exports.addSubjects =  (req, res) => {
 
     try {
 
         const subjectArray = req.body;
-        debug(req.body)
+        
         Subject.insertMany(subjectArray, function(err, docs){
-            res.json()
-            debug(docs)
-        })
+            if(err){
+                debug(err)
+            }
+
+            return res.json({msg: message.constants.subject.addSucessfull})
+                   
+                })
+
+
 
     }
     catch(err){

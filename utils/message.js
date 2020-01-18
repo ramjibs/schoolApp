@@ -4,6 +4,8 @@ module.exports.message = {
 
     error_messages: {
 
+        something_wrong: 'Something went wrong. Please try again later',
+
         registerError: {
             email_id_exists: "Email Handle already exist in the Database",
             under_verification: "Your application is under verification please check Email",
@@ -26,6 +28,10 @@ module.exports.message = {
         },
         subjectError: {
             noSubject: "There is no subject in Database Currently. Plesae add some."
+        },
+        teacherError: {
+            teacher_not_exist: 'Requested Teacher does not exist. Please try again later',
+            teacher_already_invited: 'Teacher is already invitated by your Organization. Please wait for his response'
         }
     },
 
@@ -46,7 +52,7 @@ module.exports.message = {
             user_created: "User sucessfully created",
             user_logged_in: "Succesfully logged in",
             user_password_changed: "Sucessfully Changed your Password"
-
+            
 
         },
 
@@ -56,8 +62,17 @@ module.exports.message = {
             registrationDenial: "Denial of Registration",
             userCreation: "Confirmation of User Creation",
             passChangeRequest: "Request for Password Change",
-            passwordChangeOTPSent: "A password change OTP is sent to your email Id"
+            passwordChangeOTPSent: "A password change OTP is sent to your email Id",
+            InvitateTeacher: "Invitation to join in new School"
             
+        },
+        subject: {
+            addSucessfull: "Subjects inserted into DB Sucessfully."
+        },
+        teacher: {
+            teacher_invited_successfully: 'Successfully Invited',
+            teacher_exist_in_school: 'Teacher is already a Staff in your Organization',
+
         }
 
 

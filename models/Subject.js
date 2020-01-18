@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 const SubjectSchema = new Schema({
 
-    subject: [
-        {
+   
             subjectName: {
                 type: String,
                 required: true,
@@ -14,8 +13,7 @@ const SubjectSchema = new Schema({
                 type: String,
                 required: true
             }
-        }
-    ]
+       
 })
 
 SubjectSchema.index({subjectName: 1}, {type: -1})

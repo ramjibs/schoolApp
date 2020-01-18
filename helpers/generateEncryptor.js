@@ -29,6 +29,17 @@ module.exports.decryptPassword = async (password, hash) => {
     return await bcryptjs.compare(password, hash)
 }
 
+module.exports.generateInvitation = async ( invitation ) => {
+
+    const salt = await bcryptjs.genSalt(10);
+    const hash = await bcryptjs.hash(invitation, salt)
+
+    return {
+        hash
+    };
+
+}
+
 function randomLetter(size) {
 
     const alphaNumeric = message.constants.alphaNumeric;

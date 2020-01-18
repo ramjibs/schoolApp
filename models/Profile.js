@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
-
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user'
+    _id:{
+        type: Schema.Types.ObjectId
     },
-    name: {
+
+    editable: {
+        type: Boolean,
+        default: false,
+    }, 
+    name: { 
         type: String,
         required: true
     },
@@ -22,11 +25,11 @@ const ProfileSchema = new Schema({
     school: {
         registrationNumber: {
             type: String,
-            required: true
+            
         },
         licenseNumber: {
             type: String,
-            required: true
+           
         }
     },
     teacher: {

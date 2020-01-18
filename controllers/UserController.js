@@ -2,17 +2,17 @@ const User = require('../models/User')
 const EmailAuth = require('../models/EmailAuth');
 const debug = require('debug')('app:userController')
 const { generateUniqueUserId } = require('../helpers/generateUniqueUserId')
-const { generatePassword, decryptPassword, hashPassword } = require('../helpers/generatePassword')
+const { generatePassword, decryptPassword, hashPassword } = require('../helpers/generateEncryptor')
 const { message } = require('../utils/message');
 const jwt = require('jsonwebtoken')
 const keys = require('../config/Keys')
-
+const  { findByEmail, findUser}  = require('../helpers/findUser')
 // To Add a new User - School Parent Teacher
 module.exports.addUser = async (req, res, next) => {
 
     if (req.body.acceptence && req.body.acceptence === message.constants.registration.registration_denied) {
 
-        res.locals.denial = true;
+        res.locals.mailName = 'deniedSchool';
         res.json({ msg: message.error_messages.registerError.school_denied })
         next()
 
@@ -22,12 +22,13 @@ module.exports.addUser = async (req, res, next) => {
 
         try {
 
-            const user = await findUser(req)
+            if(req.body.role === 'teacher' || req.body.role === 'parent'){
+                
+                const user = await findByEmail(req.body.email)
 
             if (user) {
                 return res.json({ msg: message.error_messages.userError.user_exists })
             }
-
             else {
 
                 const id = await generateUniqueUserId()
@@ -44,8 +45,8 @@ module.exports.addUser = async (req, res, next) => {
                 })
 
                 await newUser.save()
-
-                res.locals.userCreation = true
+                
+                res.locals.mailName = 'userCreation'
                 res.locals.id = id
                 res.locals.password = passGenearated.password
                 res.json({ msg: message.constants.user.user_created })
@@ -53,6 +54,11 @@ module.exports.addUser = async (req, res, next) => {
                 next()
 
             }
+
+            }
+            
+
+            
 
         }
         catch (err) {
@@ -131,7 +137,7 @@ module.exports.requestChangePassword = async (req, res, next) => {
         await newEmailAuth.save()
 
         req.body.email = user.email
-        res.locals.changePass = true;
+        res.locals.mailName = 'changePass';
         res.locals.hash = hashGenearated.password
 
         res.json({ msg: message.constants.mail.passwordChangeOTPSent, email: user.email })
@@ -206,39 +212,6 @@ changeRequestVerifed = async (req, res) => {
     }
 }
 
-async function findUser(req) {
-
-
-    // const user = await User.findOne({
-    //     $or: [
-    //         { _id: req.body.id },
-    //         { email: req.body.email }
-    //     ]
-    // })
-    let user = null
-    let id = req.body.id
-
-
-
-    try {
-        if (id.includes("@")) {
-            user = await User.findOne({
-                email: id
-            })
-        }
-        else {
-            user = await User.findOne({
-                _id: parseInt(id)
-            })
-        }
-    }
-    catch{
-        user = null
-    }
-
-    return user;
-
-}
-
+ 
 
 

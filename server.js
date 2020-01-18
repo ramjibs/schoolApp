@@ -9,6 +9,7 @@ const RegisterSchoolRouter = require('./routes/registerSchool')
 const UserRouter = require('./routes/user')
 const CheckTokenRouter = require('./routes/checktoken')
 const SubjectRouter = require('./routes/Subject')
+const TeacherRouter = require('./routes/Teacher')
 const passport = require('passport')
 //make connection to the DB
 require('./config/dbconfig/db.connection')
@@ -23,6 +24,7 @@ app.use('/api/checktoken',CheckTokenRouter)
 app.use('/api/registration', RegisterSchoolRouter)
 app.use('/api/users',UserRouter)
 app.use('/api/subjects',SubjectRouter)
+app.use('/api/teacher', TeacherRouter)
 // let port = 4000
 app.listen(keys.PORT, () =>{
     debug(`Server started in Port ${keys.PORT}`)

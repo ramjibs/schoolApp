@@ -25,13 +25,18 @@ const UserSchema = new Schema({
         required: true
     },
     activeSchoolId: {
-        type: [String],
+        type: [Schema.Types.ObjectId],
+        ref:'user',
         required: function() { return this.activeStatus }
         
     },
     access: {
         type: Map,
         of: Boolean
+    },
+    _profile: {
+        type: Schema.Types.ObjectId,
+        ref: 'profile'
     }
 
 

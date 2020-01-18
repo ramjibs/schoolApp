@@ -6,6 +6,6 @@ const mail = require('../services/mail')
 
 router.post('/registerSchool',RegisterSchoolController.addSchool, mail.sendNotification )
 router.get('/getSchools', RegisterSchoolController.getSchools)
-router.put('/setSchoolAcceptence/:id', RegisterSchoolController.setSchoolAcceptence,UserController.addUser,mail.sendNotification)
+router.put('/setSchoolAcceptence/:id', RegisterSchoolController.setSchoolAcceptence,UserController.addUser,RegisterSchoolController.addSchoolProfile,mail.sendNotification)
 
 module.exports = RegisterSchool = router;
