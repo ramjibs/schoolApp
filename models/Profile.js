@@ -85,16 +85,15 @@ const ProfileSchema = new Schema({
                     type: Boolean,
                     required: true
                 }
-            },
-            {
-                totalExperience: {
-                    type: Number,
-
-                }
-
             }
+            
 
         ],
+        totalExperience: {
+            type: Number,
+
+        }
+
         //Ratings : reference to ratings
 
 
