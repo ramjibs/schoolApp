@@ -25,11 +25,29 @@ const UserSchema = new Schema({
         required: true
     },
     activeSchoolId: {
-        type: [Schema.Types.ObjectId],
-        ref:'user',
-        required: function() { return this.activeStatus }
+        type: Number,
+        ref: 'user',
         
     },
+    schoolHistory:[
+        {
+
+            schoolId:{
+                type: Number,
+                ref: 'user',
+            },
+            from:{
+                type: String,
+                required: true
+            },
+            to:{
+                type: String
+            }
+           
+            
+        },
+        
+    ],
     access: {
         type: Map,
         of: Boolean
@@ -42,6 +60,9 @@ const UserSchema = new Schema({
 
 
 
+},
+{
+    minimize: true
 })
 
 

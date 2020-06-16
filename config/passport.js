@@ -11,7 +11,7 @@ opts.secretOrKey = keys.secretOrPrivateKey;
 module.exports = passport => {
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
-      User.findById(jwt_payload._id)
+      User.findById(jwt_payload._id).select('email activeSchoolId role activeStatus access _profile')
         .then(user => {
           if (user) {
   

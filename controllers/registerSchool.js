@@ -89,13 +89,14 @@ module.exports.setSchoolAcceptence = async (req, res, next) => {
             new: true,
             useFindAndModify: false
         })
+        next()
         
     }
     catch (err) {
         debug(err)
     }
 
-    next()
+    
 
 
 }
@@ -107,13 +108,12 @@ module.exports.addSchoolProfile = async (req, res, next) => {
 
         const school = await RegisterSchool.findOne({ email: req.body.email })
         
-        if(user) {
+        if(school) {
              
             const profile = new Profile({
                 _id: new mongoose.Types.ObjectId(),
                 name: school.schoolName,
-                address: req.body.address,
-                contactNumber: req.body.contactNumber,
+                
                 school : {
                     registrationNumber: school.registrationNumber,
                     licenseNumber: school.licenseNumber

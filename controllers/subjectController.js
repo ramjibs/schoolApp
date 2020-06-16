@@ -9,10 +9,10 @@ module.exports.getAllSubjects =  async (req, res) => {
         const subjectArray = await Subject.find({})
        
         if(subjectArray.length === 0) {
-            return res.json({msg: message.error_messages.subjectError.noSubject})
+            return res.status(400).json({msg: message.error_messages.subjectError.noSubject})
         }
 
-        return res.json(subjectArray)
+        return res.status(200).json(subjectArray)
 
     }
     catch( err ){
