@@ -33,7 +33,7 @@ module.exports.addUser = async (req, res, next) => {
                 const passGenearated = await generatePassword(8)
                 let newUser = null
                
-                debug(req.body)
+                
                 switch (req.body.role) {
                     case 'admin':
                         let obj = {
@@ -80,6 +80,8 @@ module.exports.addUser = async (req, res, next) => {
                 res.locals.mailName = 'userCreation'
                 res.locals.id = id
                 res.locals.password = passGenearated.password
+                debug(id)
+                debug(passGenearated.password)
                 res.json({ msg: message.constants.user.user_created })
 
                 next()
